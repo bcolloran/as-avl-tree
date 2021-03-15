@@ -3,6 +3,7 @@ module.exports = {
   include: [
     // "assembly/__tests__/**/*.spec.ts",
     "assembly/**/contains.test.ts",
+    "assembly/**/insert.test.ts",
   ],
   /**
    * A set of globs passed to the glob package that quality files to be added to

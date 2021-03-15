@@ -40,7 +40,7 @@ function _defaultCompare<K>(a: K, b: K): i32 {
 
 export class AvlTree<K, V> {
   protected _root: Node<K, V> | null = null;
-  private _size: number = 0;
+  private _size: i32 = 0;
   // private _compare: CompareFunction<K> = _defaultCompare;
 
   /**
@@ -233,14 +233,10 @@ export class AvlTree<K, V> {
    */
   public get(key: K): V | null {
     const root = this._root;
-    if (root == null) {
-      return null;
-    }
+    if (root == null) return null;
 
     const result = this._get(key, root);
-    if (result == null) {
-      return null;
-    }
+    if (result == null) return null;
 
     return result.value;
   }
@@ -254,9 +250,7 @@ export class AvlTree<K, V> {
    */
   private _get(key: K, root: Node<K, V>): Node<K, V> | null {
     const result = this._compare(key, root.key);
-    if (result == 0) {
-      return root;
-    }
+    if (result == 0) return root;
 
     if (result < 0) {
       const left = root.left;
@@ -301,13 +295,17 @@ export class AvlTree<K, V> {
   }
 
   /** Gets the size of the tree. */
-  public get size(): number {
+  public get size(): i32 {
     return this._size;
   }
 
   /** Gets whether the tree is empty. */
   public get isEmpty(): bool {
     return this._size == 0;
+  }
+
+  public get root(): Node<K, V> | null {
+    return this._root;
   }
 
   /**
