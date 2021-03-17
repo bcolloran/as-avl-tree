@@ -1,14 +1,9 @@
 import { AvlTree } from "../avlTree";
 import { Node } from "../node";
 
-type StringNode = Node<i32, string> | null;
-
-const i32NullStringNode = (x: i32): StringNode =>
-  new Node<i32, string>(2, null);
-
 describe("insert", () => {
   it("should return the size of the tree", () => {
-    const tree = new AvlTree<i32, string>();
+    const tree = new AvlTree<i32>();
     tree.insert(1);
     tree.insert(2);
     tree.insert(3);
@@ -18,7 +13,7 @@ describe("insert", () => {
   });
 
   it("should ignore insert of duplicate key", () => {
-    const tree = new AvlTree<i32, string>();
+    const tree = new AvlTree<i32>();
     tree.insert(1);
     tree.insert(1);
     expect<i32>(tree.size).toBe(1);
@@ -34,7 +29,7 @@ describe("insert", () => {
    *    / \           w   x y   z
    *   w   x
    */ it("should correctly balance the left left case", () => {
-    const tree = new AvlTree<i32, string>();
+    const tree = new AvlTree<i32>();
     tree.insert(3);
     tree.insert(2);
     tree.insert(1);
@@ -55,7 +50,7 @@ describe("insert", () => {
    *      / \       w   x y   z
    *     x   y
    */ it("should correctly balance the left right case", () => {
-    const tree = new AvlTree<i32, string>();
+    const tree = new AvlTree<i32>();
     tree.insert(3);
     tree.insert(1);
     tree.insert(2);
@@ -76,7 +71,7 @@ describe("insert", () => {
    *       y   z
    */
   it("should correctly balance the right right case", () => {
-    const tree = new AvlTree<i32, string>();
+    const tree = new AvlTree<i32>();
     tree.insert(1);
     tree.insert(2);
     tree.insert(3);
@@ -97,7 +92,7 @@ describe("insert", () => {
    *   x   y
    */
   it("should correctly balance the right left case", () => {
-    const tree = new AvlTree<i32, string>();
+    const tree = new AvlTree<i32>();
     tree.insert(1);
     tree.insert(3);
     tree.insert(2);

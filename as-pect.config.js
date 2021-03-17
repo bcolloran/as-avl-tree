@@ -4,6 +4,8 @@ module.exports = {
     // "assembly/__tests__/**/*.spec.ts",
     "assembly/**/contains.test.ts",
     "assembly/**/insert.test.ts",
+    "assembly/**/delete.test.ts",
+    "assembly/**/size.test.ts",
   ],
   /**
    * A set of globs passed to the glob package that quality files to be added to

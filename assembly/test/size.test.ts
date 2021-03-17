@@ -1,8 +1,8 @@
-import { TestAvlTree } from "./testUtils";
+import { AvlTree } from "../avlTree";
 
 describe("size", () => {
   it("should return the size of the tree", () => {
-    const tree = new TestAvlTree();
+    const tree = new AvlTree<i32>();
     expect(tree.size).toBe(0);
     tree.insert(1);
     expect(tree.size).toBe(1);

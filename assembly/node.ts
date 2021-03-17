@@ -3,9 +3,9 @@
  *   under MIT license. See LICENSE in the project root for details.
  */
 
-export class Node<K, V> {
-  public left: Node<K, V> | null = null;
-  public right: Node<K, V> | null = null;
+export class Node<K> {
+  public left: Node<K> | null = null;
+  public right: Node<K> | null = null;
   // public height: i32 | null = null;
   public height: i32 = 0;
 
@@ -15,7 +15,7 @@ export class Node<K, V> {
    * @param key The key of the new node.
    * @param value The value of the new node.
    */
-  constructor(public key: K, public value: V | null) {}
+  constructor(public key: K) {}
 
   /**
    * Performs a right rotate on this node.
@@ -23,13 +23,13 @@ export class Node<K, V> {
    * @returns The root of the sub-tree; the node where this node used to be.
    * @throws If Node.left is null.
    */
-  public rotateRight(): Node<K, V> {
+  public rotateRight(): Node<K> {
     //     b                           a
     //    / \                         / \
     //   a   e -> b.rotateRight() -> c   b
     //  / \                             / \
     // c   d                           d   e
-    const other = <Node<K, V>>this.left;
+    const other = <Node<K>>this.left;
     this.left = other.right;
     other.right = this;
     this.height = max(this.leftHeight, this.rightHeight) + 1;
@@ -43,13 +43,13 @@ export class Node<K, V> {
    * @returns The root of the sub-tree; the node where this node used to be.
    * @throws If Node.right is null.
    */
-  public rotateLeft(): Node<K, V> {
+  public rotateLeft(): Node<K> {
     //   a                              b
     //  / \                            / \
     // c   b   -> a.rotateLeft() ->   a   e
     //    / \                        / \
     //   d   e                      c   d
-    const other = <Node<K, V>>this.right;
+    const other = <Node<K>>this.right;
     this.right = other.left;
     other.left = this;
     this.height = max(this.leftHeight, this.rightHeight) + 1;
