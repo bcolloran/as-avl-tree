@@ -22,7 +22,7 @@ See the [typings file](./typings/avl-tree.d.ts) for the full API.
 import { AvlTree } from "@tyriar/avl-tree";
 
 // Construct AvlTree
-const tree = new AvlTree<number, number>();
+const tree = new AvlTree<i32>();
 
 // Insert keys
 tree.insert(1);
@@ -60,6 +60,31 @@ console.log("minKey: " + minKey);
 console.log("new minKey: " + tree2.findMinimum());
 // > min key: 'a'
 // > new min key: 'A'
+```
+
+# AssemblySCript quirks
+
+Note that these AvlTree and AvlTreeMap implementation have the same limitation as the implementation of [Map in the AssemblyScript stdlib](https://www.assemblyscript.org/stdlib/map.html#constructor): namely, because `undefined` cannot be represented and (not all types are nullable)[https://www.assemblyscript.org/types.html#nullability], using `.get` on a missing key will result in an error, as will using `.findMinimum()` and `.findMaximum()` on an empty tree.
+
+Therefore, one must unfortuntately do a manual validity check when using these methods, similar to what is required for `Map`, for example:
+
+```typescript
+var tree = new AvlTreeMap<i32, string>();
+
+var str = tree.get(1); // ERROR
+var minStr = tree.findMinimum(); // ERROR
+
+// The error can be avoided by first doing a validity check:
+var str: string | null = tree.has(1) ? tree.get(1) : null; // OK
+var str: string | null = tree.isEmpty() ? tree.findMinimum() : null; // OK
+
+// Note that if the values in an AvlTreeMap are of a non-nullable
+// type (such as numeric types) you'll need to expand the conditional,
+// because a one-liner like the ones above won't compile
+
+var tree = new AvlTreeMap<i32, f64>();
+// `f64 | null` is not a valid type
+var num: f64 | null = tree.has(1) ? tree.get(1) : null; // ERROR
 ```
 
 ## Operation time complexity

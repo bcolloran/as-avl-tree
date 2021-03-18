@@ -1,13 +1,13 @@
-import { TestAvlTree } from "./testUtils";
+import { AvlTree } from "./testUtils";
 
 describe("findMinimum", () => {
-  xit("should return null when the tree is empty", () => {
-    const tree = new TestAvlTree();
+  it("should return null when the tree is empty", () => {
+    const tree = new AvlTree();
     assert.equal(tree.findMinimum(), null);
   });
 
-  xit("should return the minimum key in the tree", () => {
-    const tree = new TestAvlTree();
+  it("should return the minimum key in the tree", () => {
+    const tree = new AvlTree();
     tree.insert(5);
     tree.insert(3);
     tree.insert(1);

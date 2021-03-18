@@ -7,7 +7,7 @@ describe("delete", () => {
     expect(tree.size).toBe(0);
   });
 
-  xit("should delete a single key", () => {
+  it("should delete a single key", () => {
     const tree = new AvlTree<i32>();
     tree.insert(1);
     tree.delete(1);
@@ -15,7 +15,7 @@ describe("delete", () => {
   });
 
   /** _4_ _2_ / \ / \ 2 6 -> delete(6) -> 1 4 / \ / 1 3 3 */
-  xit("should correctly balance the left left case", () => {
+  it("should correctly balance the left left case", () => {
     const tree = new AvlTree<i32>();
     tree.insert(4);
     tree.insert(2);
@@ -59,7 +59,7 @@ describe("delete", () => {
     //   throw new Error("tree.root.right.left must exist");
     //   return;
     // }
-    const rightleft = root.right;
+    const rightleft = right.left;
     expect(rightleft).not.toBeNull();
     if (!rightleft) return;
     expect(rightleft.key).toBe(3);
@@ -67,7 +67,7 @@ describe("delete", () => {
   });
 
   /** _4_ _6_ / \ / \ 2 6 -> delete(2) -> 4 7 / \ \ 5 7 5 */
-  xit("should correctly balance the right right case", () => {
+  it("should correctly balance the right right case", () => {
     const tree = new AvlTree<i32>();
     tree.insert(4);
     tree.insert(2);
@@ -104,7 +104,7 @@ describe("delete", () => {
     //   throw new Error("left.right must exist");
     //   return;
     // }
-    const leftright = root.left;
+    const leftright = left.right;
     expect(leftright).not.toBeNull();
     if (!leftright) return;
     expect(leftright.key).toBe(5);
@@ -123,7 +123,7 @@ describe("delete", () => {
   });
 
   /** _6_ _4_ / \ / \ 2 7 -> delete(8) -> 2 6 / \ \ / \ / \ 1 4 8 1 3 5 7 / \ 3 5 */
-  xit("should correctly balance the left right case", () => {
+  it("should correctly balance the left right case", () => {
     const tree = new AvlTree<i32>();
     tree.insert(6);
     tree.insert(2);
@@ -151,7 +151,7 @@ describe("delete", () => {
     //   return;
     // }
 
-    const left = tree.root;
+    const left = root.left;
     expect(left).not.toBeNull();
     if (!left) return;
     expect(left.key).toBe(2);
@@ -208,7 +208,7 @@ describe("delete", () => {
   });
 
   /** _3_ _5_ / \ / \ 2 7 -> delete(1) -> 3 7 / / \ / \ / \ 1 5 8 2 4 6 8 / \ 4 6 */
-  xit("should correctly balance the right left case", () => {
+  it("should correctly balance the right left case", () => {
     const tree = new AvlTree<i32>();
     tree.insert(3);
     tree.insert(2);
@@ -289,7 +289,7 @@ describe("delete", () => {
     // expect(rightright.value).toBe(8);
   });
 
-  xit("should take the right child if the left does not exist", () => {
+  it("should take the right child if the left does not exist", () => {
     const tree = new AvlTree<i32>();
     tree.insert(1);
     tree.insert(2);
@@ -307,7 +307,7 @@ describe("delete", () => {
     // expect(root.value).toBe(2);
   });
 
-  xit("should take the left child if the right does not exist", () => {
+  it("should take the left child if the right does not exist", () => {
     const tree = new AvlTree<i32>();
     tree.insert(2);
     tree.insert(1);
@@ -325,7 +325,7 @@ describe("delete", () => {
     // expect(root.value).toBe(1);
   });
 
-  xit("should get the right child if the node has 2 leaf children", () => {
+  it("should get the right child if the node has 2 leaf children", () => {
     const tree = new AvlTree<i32>();
     tree.insert(2);
     tree.insert(1);
@@ -344,7 +344,7 @@ describe("delete", () => {
     // expect(root.value).toBe(3);
   });
 
-  xit("should get the in-order successor if the node has both children", () => {
+  it("should get the in-order successor if the node has both children", () => {
     const tree = new AvlTree<i32>();
     tree.insert(2);
     tree.insert(1);

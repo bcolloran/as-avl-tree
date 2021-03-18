@@ -2,10 +2,11 @@ module.exports = {
   /** A set of globs passed to the glob package that qualify typescript files for testing. */
   include: [
     // "assembly/__tests__/**/*.spec.ts",
-    "assembly/**/contains.test.ts",
-    "assembly/**/insert.test.ts",
-    "assembly/**/delete.test.ts",
-    "assembly/**/size.test.ts",
+    // "assembly/avlTree/**/contains.test.ts",
+    // "assembly/avlTree/**/insert.test.ts",
+    // "assembly/avlTree/**/delete.test.ts",
+    // "assembly/avlTree/**/size.test.ts",
+    "assembly/avlTree/**/*.test.ts",
   ],
   /**
    * A set of globs passed to the glob package that quality files to be added to

@@ -1,8 +1,8 @@
-import { TestAvlTree } from "./testUtils";
+import { AvlTree } from "./testUtils";
 
 describe("get", () => {
-  xit("should return the correct values", () => {
-    const tree = new TestAvlTree();
+  it("should return the correct values", () => {
+    const tree = new AvlTree();
     tree.insert(1, 4);
     tree.insert(2, 5);
     tree.insert(3, 6);
@@ -11,8 +11,8 @@ describe("get", () => {
     assert.equal(tree.get(3), 6);
   });
 
-  xit("should return null when the value doesn't exist", () => {
-    const tree = new TestAvlTree();
+  it("should return null when the value doesn't exist", () => {
+    const tree = new AvlTree();
     assert.equal(tree.get(1), null);
     assert.equal(tree.get(2), null);
     assert.equal(tree.get(3), null);
