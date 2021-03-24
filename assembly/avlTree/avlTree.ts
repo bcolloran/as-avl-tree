@@ -19,7 +19,7 @@ const enum BalanceState {
   UNBALANCED_LEFT,
 }
 
-type CompareFunction<K> = (a: K, b: K) => i32;
+export type CompareFunction<K> = (a: K, b: K) => i32;
 
 /**
  * Compares two keys with each other.
@@ -248,16 +248,16 @@ export class AvlTree<K> {
     return root != null ? this._get(key, root) != null : false;
   }
 
-  /** @returns The minimum key in the tree or null if there are no nodes. */
+  /** Gets the minimum key in the tree. */
   public findMinimum(): K {
     const root = this._root;
     if (root == null) {
-      throw new Error("findMaximum cannot be called on an empty tree");
+      throw new Error("findMinimum cannot be called on an empty tree");
     }
     return this._minKeyNode(root).key;
   }
 
-  /** Gets the maximum key in the tree or null if there are no nodes. */
+  /** Gets the maximum key in the tree. */
   public findMaximum(): K {
     const root = this._root;
     if (root == null) {
@@ -310,6 +310,136 @@ export class AvlTree<K> {
       right = current.right;
     }
     return current;
+  }
+
+  // /**
+  //  * @param target The target value
+  //  * @param max `true` if looking for a maximal element, `false` for minimal
+  //  * @param strictIneq `true` for strict inequality (less than or greater than),
+  //  *   false for <= or >=
+  //  * @returns
+  //  */
+  private _compareQuery(target: K, max: bool, strictIneq: bool): K {
+    let node = this._root;
+    if (node == null) {
+      throw new Error("_compareQuery cannot be called on an empty tree");
+    }
+    // to maintain type consistency, we must initialize bestSoFar with
+    // a value of type K, which we'll later need to make sure satisfies the constraint
+    let bestSoFar: K = node.key;
+    while (node != null) {
+      let comp = this._compare(node.key, target);
+      if (comp == -1) {
+        // node.key is less than target
+        // if searching for a max < than target, bestSoFar is improved
+        if (max) bestSoFar = node.key;
+        // to find a tighter bound or a greater value, search right
+        node = node.right;
+      } else if (comp == 1) {
+        // node.key is greater than target.
+        // if searching for a min > than target, bestSoFar is improved
+        if (!max) bestSoFar = node.key;
+        // to find a tighter bound or a lesser value, search left
+        node = node.left;
+      } else if (comp == 0 && !strictIneq) {
+        // if strict inequality is not required, search can end
+        // immediately on an exact match
+        return target;
+      }
+    }
+    // Check that bestSoFar is satisfies desired inequality.
+    // Note: if an exact match to target has been found, we will have already returned
+    const compareFlag = max ? -1 : 1;
+    const finalCheck = this._compare(bestSoFar, target);
+    if (finalCheck != compareFlag) {
+      throw new Error(
+        "could not find any key in the tree satisfying desired constraint"
+      );
+    }
+    return bestSoFar;
+  }
+
+  // FIXME: i can't get tests passing (or even failing) for these versions of getMaxLessThan/getMinGreaterThan.
+  // Not sure what the problem is -- seems to hang with some kind of infinite loop.
+  // Have to use hand coded versions below.
+  //
+  // getMaxLessThan(target: K): K {
+  //   return this._compareQuery(target, true, true);
+  // }
+  // getMinGreaterThan(target: K): K {
+  //   return this._compareQuery(target, false, true);
+  // }
+
+  getMaxLessThanOrEqual(target: K): K {
+    return this._compareQuery(target, true, false);
+  }
+
+  getMinGreaterThanOrEqual(target: K): K {
+    return this._compareQuery(target, false, false);
+  }
+
+  getMaxLessThan(target: K): K {
+    let node = this._root;
+    if (node == null) {
+      throw new Error("getMaxLessThan cannot be called on an empty tree");
+    }
+    // to maintain type consistency, we must initialize maxSoFar with
+    // a value of type K, which we'll later need to make sure is less than the target
+    let maxSoFar: K = node.key;
+    while (node != null) {
+      let comp = this._compare(node.key, target);
+      if (comp == -1) {
+        // node.key is < target; max improved, search right
+        maxSoFar = node.key;
+        node = node.right;
+      } else {
+        // node.key is >= target; max NOT improved, search left
+        node = node.left;
+      }
+    }
+    // Check that maxSoFar is actually less than the target
+    const finalCheck = this._compare(maxSoFar, target);
+    if (finalCheck != -1) {
+      // maxSoFar >= target
+      throw new Error(
+        "could not find any key in the tree less than the target value"
+      );
+    }
+    return maxSoFar;
+  }
+
+  getMinGreaterThan(target: K): K {
+    let node = this._root;
+    if (node == null) {
+      throw new Error("getMinGreaterThan cannot be called on an empty tree");
+    }
+
+    // to maintain type consistency, we must initialize bestSoFar with
+    // a value of type K, which we'll later need to make sure is greater than the target
+    let bestSoFar: K = node.key;
+
+    while (node != null) {
+      let comp = this._compare(node.key, target);
+      if (comp == 1) {
+        // node.key is > target; max improved, search left
+        bestSoFar = node.key;
+        node = node.left;
+      } else {
+        // node.key is <= target; max NOT improved, search right
+        node = node.right;
+      }
+    }
+
+    // Check that bestSoFar is actually greater than the target
+    const finalCheck = this._compare(bestSoFar, target);
+    if (finalCheck != 1) {
+      // bestSoFar <= target
+      throw new Error(
+        "could not find any key in the tree greater than the target value"
+      );
+    }
+
+    return bestSoFar;
   }
 
   /**
