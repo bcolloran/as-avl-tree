@@ -1,7 +1,7 @@
 {
-  "name": "asmscript_2",
-  "version": "1.0.0",
-  "description": "# get the latest version of as-pect",
+  "name": "as-avl-tree",
+  "version": "1.1.0",
+  "description": "AVL tree for AssemblyScript",
   "main": "index.js",
   "scripts": {
     "test": "test",
